@@ -14,6 +14,9 @@ function getWeather (cityName) {
     let obtainCoordinates = `https://api.openweathermap.org/geo/1.0/direct?q=${encodedCityName}&limit=1&appid=${apiKey}`;
 
 
+    let latitudeEl = "";
+    let longitudeEl = "";
+
     fetch(obtainCoordinates, {
         method: 'GET'
     })
@@ -21,15 +24,15 @@ function getWeather (cityName) {
             return response.json();
         })
         .then(function (data) {
-            if (data && data.length > 0) {
-                const latitudeEl = data[0].lat;
-                const longitudeEl = data[0].lon;
+            // if (data && data.length > 0) {
+                latitudeEl = data[0].lat;
+                longitudeEl = data[0].lon;
                 
                 console.log('Latitude:', latitudeEl);
                 console.log('Longitude:', longitudeEl);
-            } else {
-                console.error('Data array is empty or undefined.');
-            }
+
+            // .catch(function(error) {
+            //     console.error('Data array is empty or undefined.');
         })
 
         const weatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitudeEl}&lon=${longitudeEl}&appid=${apiKey}`;
