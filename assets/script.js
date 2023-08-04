@@ -9,13 +9,14 @@ let apiKey = "d9dc192660aded560ce44b031b481711";
 
 let weatherURL;
 
+
 function getWeather (cityName) {
     let encodedCityName = encodeURIComponent(cityName);
     let obtainCoordinates = `https://api.openweathermap.org/geo/1.0/direct?q=${encodedCityName}&limit=1&appid=${apiKey}`;
 
 
-    let latitudeEl = "";
-    let longitudeEl = "";
+    let latitudeEl;
+    let longitudeEl;
 
     fetch(obtainCoordinates, {
         method: 'GET'
@@ -30,12 +31,17 @@ function getWeather (cityName) {
                 
                 console.log('Latitude:', latitudeEl);
                 console.log('Longitude:', longitudeEl);
-
-            // .catch(function(error) {
-            //     console.error('Data array is empty or undefined.');
+            
+            // }})
         })
 
-        const weatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitudeEl}&lon=${longitudeEl}&appid=${apiKey}`;
+            .catch(function(error) {
+                console.error('Data array is empty or undefined.');
+        })
+    
+    
+
+        let weatherURL = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitudeEl}&lon=${longitudeEl}&appid=${apiKey}`;
 
         fetch(weatherURL, {
             method: 'GET'
