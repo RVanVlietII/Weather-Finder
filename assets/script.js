@@ -3,9 +3,30 @@ let searchBtn = $("#searchButton");
 
 let cityName;
 
-let apiKey = "b8c6ddc1cf07f554cdb5b7d524103a5b";
+let apiKey = "19b8c7662cda00a61cae55066965dbf7";
 
 let weatherURL;
+
+
+
+// function fetchedData(property1, property2, property3, property4, property5) {
+//     // Create an unordered list element
+//     const resultsDiv = $('<div>');
+//         // let header = $('<h2>');
+//         //     header.text("The Weather");
+    
+
+//     resultsDiv.html(`
+//     <h2>The Weather</h2>
+//     <p>Property 1: ${property1}</p>
+//     <p>Property 2: ${property2}</p>
+//     <p>Property 3: ${property3}</p>
+//     <p>Property 4: ${property4}</p>
+//     <p>Property 5: ${property5}</p>
+// `);
+
+//     resultsContainer.append(resultsDiv);
+// }
 
 
 function getWeather (cityName) {
@@ -39,55 +60,64 @@ function getWeather (cityName) {
                     })
                     .then(function (data) {
                         console.log(data);
-                        fetchedData(data, property1, property2, property3, property4, property5);
+                        console.log(data.list[0].dt_txt);
+                        console.log(data.list[0].weather[0].icon);
+                        console.log(data.list[0].main.temp);
+                        console.log(data.list[0].main.humidity);
+                        console.log(data.list[0].wind.speed);
+                        // //fetchedData(data, property1, property2, property3, property4, property5);
+                        let propertiesByDay = [];
+
+                        for (let i=0; i < 5; i++) {
+                            const property1 = data.list[i].dt_txt; //"Value1_" + i;
+                            const property2 = data.list[i].weather[0].icon;//"Value2_" + i;
+                            const property3 = data.list[i].main.temp;//"Value3_" + i;
+                            const property4 = data.list[i].main.humidity;//"Value4_" + i;
+                            const property5 = data.list[i].wind.speed;//(have to convert temp to mph) "Value5_" + i;
+
+                        propertiesByDay.push({
+                            property1,
+                            property2,
+                            property3,
+                            property4,
+                            property5
+                        });
+                    }
+
+                    propertiesByDay.forEach((dayProperties, index) => {
+                        const resultsDiv = $("#results" + (index + 1));
+                        // const cardTitle = resultsDiv.find('.card-title');
+                        const cardText = resultsDiv.find('.card-text');
+
+                        // cardTitle.text(`Weather Data for Day ${index + 1}`);
+                        cardText.html(` 
+                
+                        <p>Property 1: ${dayProperties.property1}</p>
+                        <p>Property 2: ${dayProperties.property2}</p>
+                        <p>Property 3: ${dayProperties.property3}</p>
+                        <p>Property 4: ${dayProperties.property4}</p>
+                        <p>Property 5: ${dayProperties.property5}</p>`)
+
+                    })
+                    
+                    resultsContainer.append(resultsDiv);
+                    propertiesByDay.forEach((dayProperties, index) => {
+                        updateResultDiv(index, dayProperties);
+
+                    // resultsContainer.append(resultsDiv);
+                    //     fetchedData(property1, property2, property3, property4, property5);
                     })
                     .catch(function(error) {
                         console.error("Error fetching weather data from coordinates", error);
                     })
-                    processFetchedData(fetchedData);
                 })
             
-        
 
-            .catch(function(error) {
-                console.error('Data array is empty or undefined.');
         })
-
     };
 
-// Modify the fetchedData function to display the data in separate result containers
-// function fetchedData(data, property1, property2, property3, property4, property5, containerIndex) {
-    // Create an unordered list element
-    // const list = document.createElement('ul');
 
-    // Create list items for each property and add them to the list
-//     const listItem1 = document.createElement('li');
-//     listItem1.textContent = `Property 1: ${property1}`;
-//     list.appendChild(listItem1);
 
-//     const listItem2 = document.createElement('li');
-//     listItem2.textContent = `Property 2: ${property2}`;
-//     list.appendChild(listItem2);
-
-//     const listItem3 = document.createElement('li');
-//     listItem3.textContent = `Property 3: ${property3}`;
-//     list.appendChild(listItem3);
-
-//     const listItem4 = document.createElement('li');
-//     listItem4.textContent = `Property 4: ${property4}`;
-//     list.appendChild(listItem4);
-
-//     const listItem5 = document.createElement('li');
-//     listItem5.textContent = `Property 5: ${property5}`;
-//     list.appendChild(listItem5);
-
-//     // Append the list to the respective container based on the containerIndex
-//     const resultContainer = document.getElementById(`resultContainer${containerIndex}`);
-//     resultContainer.appendChild(list);
-
-//     // Process the fetched data as needed
-//     console.log("Fetched data:", data);
-// }
 
 // Your current code snippet with modifications to call the fetchedData function
 // ... (fetch loop code)
@@ -101,14 +131,14 @@ function getWeather (cityName) {
 //         return response.json();
 //     })
 //     .then(function (data) {
-//         // Simulate five data properties for each set of data
-//         const property1 = "Value1_" + i;
-//         const property2 = "Value2_" + i;
-//         const property3 = "Value3_" + i;
-//         const property4 = "Value4_" + i;
-//         const property5 = "Value5_" + i;
+        // Simulate five data properties for each set of data
+        // const property1 = "Value1_" + i;
+        // const property2 = "Value2_" + i;
+        // const property3 = "Value3_" + i;
+        // const property4 = "Value4_" + i;
+        // const property5 = "Value5_" + i;
 
-//         // Call fetchedData with the properties and the containerIndex (i+1)
+        // Call fetchedData with the properties and the containerIndex (i+1)
 //         fetchedData(data, property1, property2, property3, property4, property5, i + 1);
 //     })
 //     .catch(function(error) {
