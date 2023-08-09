@@ -3,7 +3,7 @@ let searchBtn = $("#searchButton");
 
 let cityName;
 
-let apiKey = "19b8c7662cda00a61cae55066965dbf7";
+let apiKey = "ddb416582491d4c4a15f591564de9f92";
 
 let weatherURL;
 
@@ -117,34 +117,6 @@ function getWeather (cityName) {
     };
 
 
-
-
-// Your current code snippet with modifications to call the fetchedData function
-// ... (fetch loop code)
-
-// In the fetch loop, instead of calling console.log(data), call fetchedData with appropriate properties and containerIndex
-// for (let i = 0; i < weatherURLs.length; i++) {
-//     fetch(weatherURLs[i], {
-//         method: 'GET'
-//     })
-//     .then(function (response) {
-//         return response.json();
-//     })
-//     .then(function (data) {
-        // Simulate five data properties for each set of data
-        // const property1 = "Value1_" + i;
-        // const property2 = "Value2_" + i;
-        // const property3 = "Value3_" + i;
-        // const property4 = "Value4_" + i;
-        // const property5 = "Value5_" + i;
-
-        // Call fetchedData with the properties and the containerIndex (i+1)
-//         fetchedData(data, property1, property2, property3, property4, property5, i + 1);
-//     })
-//     .catch(function(error) {
-//         console.error("Error fetching weather data from coordinates", error);
-//     });
-// }
 
 searchBtn.on("click", function() {
     cityName = $("#cityInput").val();
