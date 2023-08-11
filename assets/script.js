@@ -65,8 +65,10 @@ function getWeather (cityName) {
                         console.log(data.list[0].main.temp);
                         console.log(data.list[0].main.humidity);
                         console.log(data.list[0].wind.speed);
-                
+                        
+                        
                         let propertiesByDay = [];
+                        const cityName = data.city.name;
 
                         for (let i=0; i < 5; i++) {
                             const property1 = data.list[i].dt_txt; //"Value1_" + i;
@@ -74,13 +76,15 @@ function getWeather (cityName) {
                             const property3 = data.list[i].main.temp;//"Value3_" + i;
                             const property4 = data.list[i].main.humidity;//"Value4_" + i;
                             const property5 = data.list[i].wind.speed;//(have to convert temp to mph) "Value5_" + i;
+                            
 
                         propertiesByDay.push({
                             property1,
                             property2,
                             property3,
                             property4,
-                            property5
+                            property5,
+                            property6: cityName
                         });
                     }
 
@@ -95,6 +99,8 @@ function getWeather (cityName) {
                       
 
                         cardTitle.html(`
+                            <p>City Name: ${dayProperties.property6}</p>
+                            
                             <p>Date: ${dayProperties.property1}</p>
                             <img id="wicon" src="${iconurl}" alt="Weather Icon">
                         `)
