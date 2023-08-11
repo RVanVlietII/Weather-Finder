@@ -112,10 +112,10 @@ function getWeather (cityName) {
                     resultsContainer.append(resultsDiv);
                     propertiesByDay.forEach((dayProperties, index) => {
                         updateResultDiv(index, dayProperties);
-                    
-                        const storageKey = `weatherData_${index}`;
-                        const dataToSave = JSON.stringify(dayProperties);
-                        localStorage.setItem(storageKey, dataToSave);
+                        // updateSearchHistorySidebar(searchHistoryArray);
+                        // const storageKey = `weatherData_${index}`;
+                        // const dataToSave = JSON.stringify(dayProperties);
+                        // localStorage.setItem(storageKey, dataToSave);
                     })
                     })
                     .catch(function(error) {
@@ -180,3 +180,8 @@ searchBtn.on("click", function(event) {
     
     updateSearchHistorySidebar(searchHistoryArray);
 });
+
+
+
+
+
