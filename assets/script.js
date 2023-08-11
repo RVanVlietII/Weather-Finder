@@ -105,7 +105,7 @@ function getWeather (cityName) {
                         <p>Humidity: ${dayProperties.property4}</p>
                         <p>Wind Speed: ${dayProperties.property5}</p>`)
 
-                    })
+                    
                     
 
 
@@ -116,7 +116,7 @@ function getWeather (cityName) {
                         const storageKey = `weatherData_${index}`;
                         const dataToSave = JSON.stringify(dayProperties);
                         localStorage.setItem(storageKey, dataToSave);
-                   
+                    })
                     })
                     .catch(function(error) {
                         console.error("Error fetching weather data from coordinates", error);
