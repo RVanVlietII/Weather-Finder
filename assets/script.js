@@ -7,7 +7,27 @@ let apiKey = "ddb416582491d4c4a15f591564de9f92";
 
 let weatherURL;
 
+function updateResultDiv(index, dayProperties) {
+ 
+    const resultsDiv = $("#results" + (index + 1));
+    const cardText = resultsDiv.find('.card-text');
+    const cardTitle = resultsDiv.find('.card-title');
 
+    const iconurl = "http://openweathermap.org/img/w/" + dayProperties.property2 + ".png";
+
+    cardTitle.html(`
+        <p>Date: ${dayProperties.property1}</p>
+        <img id="wicon" src="${iconurl}" alt="Weather Icon">
+    `);
+
+    cardText.html(`
+        <p>Temperature: ${dayProperties.property3}</p>
+        <p>Humidity: ${dayProperties.property4}</p>
+        <p>Wind Speed: ${dayProperties.property5}</p>
+    `);
+
+    
+}
 
 function getWeather (cityName) {
     let encodedCityName = encodeURIComponent(cityName);
@@ -66,12 +86,13 @@ function getWeather (cityName) {
 
                     propertiesByDay.forEach((dayProperties, index) => {
                         const resultsDiv = $("#results" + (index + 1));
-                        // const cardTitle = resultsDiv.find('.card-title');
+                        
                         const cardText = resultsDiv.find('.card-text');
                         const cardTitle = resultsDiv.find('.card-title');
-                        // cardTitle.text(`Weather Data for Day ${index + 1}`);
+                       
+
                         const iconurl = "http://openweathermap.org/img/w/" + dayProperties.property2 + ".png";
-                        // $('#wicon').attr('src', property2);
+                      
 
                         cardTitle.html(`
                             <p>Date: ${dayProperties.property1}</p>
@@ -86,10 +107,15 @@ function getWeather (cityName) {
 
                     })
                     
+
+
                     resultsContainer.append(resultsDiv);
                     propertiesByDay.forEach((dayProperties, index) => {
                         updateResultDiv(index, dayProperties);
-
+                    
+                        const storageKey = `weatherData_${index}`;
+                        const dataToSave = JSON.stringify(dayProperties);
+                        localStorage.setItem(storageKey, dataToSave);
                    
                     })
                     .catch(function(error) {
@@ -101,15 +127,56 @@ function getWeather (cityName) {
         })
     };
 
+    function updateSearchHistorySidebar(searchHistoryArray) {
+        const searchHistoryList = $("#searchHistoryContainer");
+        searchHistoryList.empty();
+        
+        console.log(searchHistoryArray);
 
+        searchHistoryArray.forEach((city, index) => {
+            const historyDiv = $("<div>").addClass("search-history-item").text(city);
+            searchHistoryContainer.append(historyDiv); 
+    
+            
+            historyDiv.on("click", function() {
+                cityName = city;
+                getWeather(cityName);
+            });
+        });
+    }
 
-// searchBtn.on("click", function() {
-//     cityName = $("#cityInput").val();
-//     getWeather(cityName);
-// });
+    $(document).ready(function() {
+       
+        const searchHistory = localStorage.getItem("searchHistory") || "[]";
+        const searchHistoryArray = JSON.parse(searchHistory);
+        updateSearchHistorySidebar(searchHistoryArray);
+        
+        for (let index = 0; index < 5; index++) {
+            const storageKey = `weatherData_${index}`;
+            const savedData = localStorage.getItem(storageKey);
+    
+            if (savedData) {
+                const dayProperties = JSON.parse(savedData);
+                updateResultDiv(index, dayProperties);
+            }
+        }
+    });
 
 searchBtn.on("click", function(event) {
     event.preventDefault()
     cityName = $("#cityInput").val();
     getWeather(cityName);
+
+    const searchHistory = localStorage.getItem("searchHistory") || "[]";
+    const searchHistoryArray = JSON.parse(searchHistory);
+
+    if (!searchHistoryArray.includes(cityName)) {
+        searchHistoryArray = [cityName, ...searchHistoryArray]; 
+        searchHistoryArray.push(cityName);
+        
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistoryArray));
+    }
+
+    
+    updateSearchHistorySidebar(searchHistoryArray);
 });
