@@ -7,6 +7,7 @@ A weather app where you can type in your city and get the weather for the next 1
 https://rvanvlietii.github.io/Weather-Finder/
 
 ## Deployment Img
+<img width="1465" alt="Weather Screenshot" src="https://github.com/RVanVlietII/Weather-Finder/assets/129308007/9000e152-2323-4166-916c-a9e4db7b57ee">
 
 
 ## Resources
